@@ -41,7 +41,7 @@ class AppModule {
     @Singleton
     @Named("guardianApiKey")
     fun provideGuardianApiKey(): String {
-        return "test"//BuildConfig.GUARDIAN_API_KEY
+        return BuildConfig.GUARDIAN_API_KEY
     }
 
     @Provides
