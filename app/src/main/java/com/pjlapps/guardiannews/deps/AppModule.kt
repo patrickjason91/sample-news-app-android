@@ -15,12 +15,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
+import kotlin.coroutines.CoroutineContext
 
 @Module(includes = [AppModule.DataModule::class])
 @InstallIn(SingletonComponent::class)
@@ -39,7 +41,7 @@ class AppModule {
     @Singleton
     @Named("guardianApiKey")
     fun provideGuardianApiKey(): String {
-        return BuildConfig.GUARDIAN_API_KEY
+        return "test"//BuildConfig.GUARDIAN_API_KEY
     }
 
     @Provides
@@ -82,6 +84,12 @@ class AppModule {
             AppDatabase::class.java,
             AppDatabase.DATABASE_NAME
         ).build()
+    }
+
+    @Provides
+    @Named("ioDispatcher")
+    fun provideCoroutineContext(): CoroutineContext {
+        return Dispatchers.IO
     }
 
     @Module

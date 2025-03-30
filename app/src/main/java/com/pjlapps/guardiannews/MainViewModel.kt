@@ -1,48 +1,51 @@
 package com.pjlapps.guardiannews
 
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pjlapps.guardiannews.data.NewsDetail
 import com.pjlapps.guardiannews.data.NewsRepository
 import com.pjlapps.guardiannews.domain.NewsListResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
+import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val newsRepository: NewsRepository
+    val newsRepository: NewsRepository,
+    @Named("ioDispatcher") val coroutineContext: CoroutineContext
 ): ViewModel() {
-    val newsListLiveData: MutableLiveData<NewsListResult> = MutableLiveData()
-    val newsDetailLiveData: MutableLiveData<NewsDetail> = MutableLiveData()
-    val newsListErrorLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val newsDetailErrorLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val newsListState = mutableStateOf<NewsListResult?>(null)
+    val newsListErrorState = mutableStateOf(false)
+    val newsDetailState = mutableStateOf<NewsDetail?>(null)
+    val newsDetailErrorState = mutableStateOf(false)
+    val newsListLoadingState = mutableStateOf(false)
 
-    fun getNewsList(
-        page: Int = 1,
-        pageSize: Int = 20
-    ) {
-        viewModelScope.launch (Dispatchers.IO) {
-            newsRepository.getNewsList(page, pageSize)
+    fun getNewsList() {
+        viewModelScope.launch(coroutineContext) {
+            newsListLoadingState.value = true
+            newsRepository.getNewsList()
                 .onSuccess { result ->
-                    newsListLiveData.postValue(result)
+                    newsListLoadingState.value = false
+                    newsListState.value = result
                 }
                 .onFailure { failure ->
-                    newsListErrorLiveData.postValue(true)
+                    newsListLoadingState.value = false
+                    newsListErrorState.value = true
                 }
         }
     }
 
     fun getNewsDetails(newsId: String) {
-        viewModelScope.launch (Dispatchers.IO) {
+        viewModelScope.launch(coroutineContext) {
             val newsDetails = newsRepository.getNewsDetailsById(newsId)
             newsDetails.onSuccess { result ->
-                newsDetailLiveData.postValue(result.newsDetail)
+                newsDetailState.value = result.newsDetail
             }
             newsDetails.onFailure { failure ->
-                newsDetailErrorLiveData.postValue(true)
+                newsDetailErrorState.value = true
             }
         }
     }

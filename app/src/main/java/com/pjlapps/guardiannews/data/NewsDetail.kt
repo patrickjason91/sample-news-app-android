@@ -23,7 +23,4 @@ data class NewsDetail(
     val body: String,
     val createdAt: String,
     val updatedAt: String,
-) {
-    @Ignore
-    var fromCache: Boolean = true
-}
+)

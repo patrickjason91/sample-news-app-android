@@ -9,7 +9,7 @@ import androidx.room.Update
 
 @Dao
 interface NewsDao {
-    @Query("SELECT * FROM news_details LIMIT :limit OFFSET :offset")
+    @Query("SELECT * FROM news_details ORDER BY webPublicationDate DESC LIMIT :limit OFFSET :offset")
     fun getNewsList(limit: Int, offset: Int): List<NewsDetail>
 
     @Query("SELECT * FROM news_details where id = :id")
