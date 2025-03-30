@@ -60,51 +60,62 @@ android {
 }
 
 dependencies {
-
+    // AndroidX
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // Navigation Component
     implementation(libs.navigation.compose)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+
+    // Networking
     implementation(libs.retrofit)
     implementation(libs.okhttp)
-    implementation(libs.glide.compose)
     implementation(libs.gson)
     implementation(libs.retrofit.converter.gson)
-    implementation(libs.ktx.serialization.json)
     implementation(libs.okhttp.logging.interceptor)
 
+    // Glide Image Loader
+    implementation(libs.glide.compose)
+
+    // Kotlinx Serialization
+    implementation(libs.ktx.serialization.json)
+
+    // Dependency injection
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
 
+    // Room DB
     implementation(libs.room)
     ksp(libs.room.compiler)
+
+    // Jetpack Compose
     val composeBom = platform("androidx.compose:compose-bom:2025.02.00")
-
     implementation(composeBom)
-    testImplementation(composeBom)
 
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui)
-
-    implementation(libs.androidx.ui.tooling.preview)
-    debugImplementation(libs.androidx.ui.tooling)
-
-    testImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.test.manifest)
-
-    implementation(libs.androidx.adaptive)
-
+    implementation(libs.compose.material3)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.livedata)
+    implementation(libs.compose.ui.tooling.preview)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.adaptive)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.runtime.livedata)
 
+    // Test dependencies
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.test.manifest)
+    testImplementation(composeBom)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
 }
 
 kapt {
