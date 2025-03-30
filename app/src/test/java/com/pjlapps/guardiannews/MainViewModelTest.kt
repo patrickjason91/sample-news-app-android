@@ -8,7 +8,9 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
@@ -18,6 +20,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.net.SocketTimeoutException
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class MainViewModelTest {
     private lateinit var viewModel: MainViewModel
@@ -37,6 +40,7 @@ class MainViewModelTest {
             createNewsListResult()
         )
         viewModel.getNewsList()
+        advanceUntilIdle()
 
         val newsListValue = viewModel.newsListState.value
         assertThat(newsListValue, `is`(notNullValue()))
@@ -52,6 +56,7 @@ class MainViewModelTest {
             EmptyResultException()
         )
         viewModel.getNewsList()
+        advanceUntilIdle()
 
         val newsListErrorValue = viewModel.newsListErrorState.value
         assertThat(newsListErrorValue, `is`(true))
@@ -63,16 +68,18 @@ class MainViewModelTest {
             createNewsDetailResult()
         )
         viewModel.getNewsDetails("newsId")
+        advanceUntilIdle()
         val newsDetailValue = viewModel.newsDetailState.value
         assertThat(newsDetailValue, `is`(notNullValue()))
     }
 
     @Test
-    fun `getNewsDetail error`() {
+    fun `getNewsDetail error`() = runTest {
         coEvery { newsRepository.getNewsDetailsById(any()) } returns Result.failure(
             SocketTimeoutException()
         )
         viewModel.getNewsDetails("newsId")
+        advanceUntilIdle()
         val newsDetailErrorValue = viewModel.newsDetailErrorState.value
         assertThat(newsDetailErrorValue, `is`(true))
     }
