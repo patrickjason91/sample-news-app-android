@@ -55,7 +55,6 @@ fun NewsApiDto.NewsDetailResponseDto.toNewsDetailResult(): NewsDetailResult {
         updatedAt = createdDate
     )
     return NewsDetailResult(
-        newsDetail,
-        fromCache = false
+        newsDetail
     )
 }

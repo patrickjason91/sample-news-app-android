@@ -2,6 +2,7 @@ package com.pjlapps.guardiannews
 
 import com.pjlapps.guardiannews.data.NewsDetail
 import com.pjlapps.guardiannews.domain.NewsApiDto
+import com.pjlapps.guardiannews.domain.NewsDetailResult
 import com.pjlapps.guardiannews.domain.NewsListResult
 
 fun createNewsListResult(newsListCount: Int = 1): NewsListResult {
@@ -19,6 +20,12 @@ fun createNewsListResult(newsListCount: Int = 1): NewsListResult {
         fromCache = false
     )
 
+}
+
+fun createNewsDetailResult(): NewsDetailResult {
+    return NewsDetailResult(
+        newsDetail = createNewsDetail()
+    )
 }
 
 fun createNewsDetail(): NewsDetail {

@@ -61,7 +61,7 @@ class NewsRepositoryImpl @Inject constructor(
             Log.e(TAG, "getNewsDetails: error", e)
             val localNewsDetail = newsDao.getNewsById(newsId)
             return if (localNewsDetail != null) {
-                val result = NewsDetailResult(localNewsDetail, fromCache = true)
+                val result = NewsDetailResult(localNewsDetail)
                 return Result.success(result)
             } else {
                 Result.failure(EmptyResultException())
