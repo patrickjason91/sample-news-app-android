@@ -25,6 +25,9 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.pjlapps.guardiannews.MainViewModel
 import com.pjlapps.guardiannews.data.NewsDetail
 
+/**
+ * Loads and displays the news list.
+ */
 @Composable
 fun NewsListScreen(
     navController: NavHostController,

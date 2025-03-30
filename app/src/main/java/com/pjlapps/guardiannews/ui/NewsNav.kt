@@ -24,6 +24,9 @@ data object NewsListPage
 @Serializable
 data class NewsDetailsPage(val newsId: String)
 
+/**
+ * Navigation composable for the news app, contains the NewsListPage and NewsDetailsPage navigation
+ */
 @Composable
 fun NewsNav(
     innerPadding: PaddingValues,

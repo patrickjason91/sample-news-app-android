@@ -34,6 +34,10 @@ import com.pjlapps.guardiannews.MainViewModel
 import com.pjlapps.guardiannews.ui.theme.ColorBackgroundTransparent
 import com.pjlapps.guardiannews.ui.theme.ColorHeadlineText
 
+/**
+ * Loads and displays the news details based from the `newsId`.
+ * Shows the news headline, thumbnail and body.
+ */
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun NewsDetailScreen(

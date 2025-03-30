@@ -16,6 +16,9 @@ import com.pjlapps.guardiannews.R
 import com.pjlapps.guardiannews.ui.theme.ColorTopBar
 import com.pjlapps.guardiannews.ui.theme.ColorTopBarIcons
 
+/**
+ * Top-level screen for the Guardian News app
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsApp(
