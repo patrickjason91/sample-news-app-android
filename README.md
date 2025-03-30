@@ -2,6 +2,9 @@
 
 Sample news client app with content fetched from Guardian News API
 
+![](https://github.com/patrickjason91/sample-news-app-android/blob/main/docs/guardian-news-android-screenshot.png)
+![](https://github.com/patrickjason91/sample-news-app-android/blob/main/docs/guardian-news-android-screenshot-2.png)
+
 ## How to build
 ### Prerequisites
 - Android Studio Ladybug
