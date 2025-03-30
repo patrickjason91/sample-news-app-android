@@ -13,7 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.TextUnit
@@ -30,8 +30,10 @@ fun NewsListScreen(
     navController: NavHostController,
     viewModel: MainViewModel
 ) {
-    viewModel.getNewsList()
-    val newsListState by viewModel.newsListLiveData.observeAsState()
+    val newsListState by remember {
+        viewModel.getNewsList()
+        viewModel.newsListState
+    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -41,7 +43,6 @@ fun NewsListScreen(
             items = newsListState?.newsList ?: emptyList(),
             key = { item -> item.id }
         ) { item ->
-            Log.i("NewsListScreen", "item composed: $item")
             NewsListItem(item) {
                 Log.i("NewsListScreen", "onClick: $item")
                 navController.navigate(NewsDetailsPage(item.id))

@@ -1,5 +1,6 @@
 package com.pjlapps.guardiannews.ui
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +32,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.pjlapps.guardiannews.MainViewModel
 import com.pjlapps.guardiannews.ui.theme.ColorBackgroundTransparent
+import com.pjlapps.guardiannews.ui.theme.ColorHeadlineText
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -38,14 +41,17 @@ fun NewsDetailScreen(
     viewModel: MainViewModel,
     newsId: String
 ) {
-    viewModel.getNewsDetails(newsId)
-    val newsDetailState = viewModel.newsDetailLiveData.observeAsState()
+    Log.i("NewsDetailScreen", "called")
+    val newsDetail by remember {
+        viewModel.getNewsDetails(newsId)
+        viewModel.newsDetailState
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(state = rememberScrollState(), enabled = true)
     ) {
-        newsDetailState.value?.let { newsDetail ->
+        newsDetail?.let { newsDetail ->
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -69,8 +75,8 @@ fun NewsDetailScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(12.dp, 8.dp),
-                        fontSize = TextUnit(21f, TextUnitType.Sp),
-                        color = Color.White
+                        fontSize = TextUnit(18f, TextUnitType.Sp),
+                        color = ColorHeadlineText
                     )
                 }
             }
